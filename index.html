@@ -1,0 +1,215 @@
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Easter Verse Generator</title>
+
+  <!-- Czcionki Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Caveat&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(to bottom right, #fef6f9, #e3f7f2);
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      color: #5c4033;
+    }
+
+    #verse-image img {
+  max-width: 300px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+    img.easter-img {
+      max-width: 220px;
+      margin-bottom: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 3.2em;
+      color: #d36ba3;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 0 #fff0f8;
+    }
+
+    .subtitle {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #8b5e3c;
+    }
+
+    #verse {
+      margin-top: 30px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.7em;
+      background-color: #fff9fb;
+      border: 2px dashed #f3c1e3;
+      border-radius: 25px;
+      padding: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      line-height: 1.5;
+      color: #5a3d2b;
+      min-height: 100px;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 18px;
+      background-color: #ffc0cb;
+      border: none;
+      border-radius: 12px;
+      color: #5c4033;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff8fab;
+    }
+
+    .loader {
+      display: none;
+      margin-top: 20px;
+      font-size: 2em;
+      animation: hop 1s infinite;
+    }
+
+    @keyframes hop {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #a0795f;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Obrazek -->
+  <img src="https://img.freepik.com/vetores-premium/feliz-pascoa-com-coelho-fofo_41327-1313.jpg?w=1380" alt="Happy Easter" class="easter-img">
+
+  <h1>Easter Verse Generator</h1>
+  <div class="subtitle">May the Word brighten your Spring 🌷</div>
+
+  <button onclick="generateVerse()">🌼 Pick a verse 🌼</button>
+
+<div class="loader" id="loader">
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjNyYzI4MmlnZmd2bnQ5NTB1ZXFhNTU1M3Fhc21naHRmYWRkeHc1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lkcIQY7IuctvFCGAD3/giphy.gif" alt="Króliczek ładuje" style="max-height: 100px;">
+  <div>Picking up a verse...</div>
+</div>
+
+  <div id="verse"></div>
+  <script>
+    const verses = [
+      {
+        text: "💖 1 Corinthians 13:13 - And now these three remain: faith, hope and love. But the greatest of these is love."
+,
+        image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp"
+      },
+      {
+        text: "🕊️ Romans 6:4 - We were therefore buried with him through baptism into death in order that, just as Christ was raised from the dead through the glory of the Father, we too may live a new life."
+        ,
+        image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp"
+      },
+      {
+        text: "👨‍👩‍👧‍👦 Psalm 133:1 - How good and pleasant it is when God’s people live together in unity!"
+,
+        image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp"
+      },
+      {
+        text: "💫 Hebrews 10:23 - Let us hold unswervingly to the hope we profess, for he who promised is faithful."
+        ,
+        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        text: "💬 Colossians 3:13-14 - Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you. And over all these virtues put on love, which binds them all together in perfect unity."
+        ,
+        image: "https://wallpapers.com/images/hd/aesthetic-bridge-and-sky-98m33epa0tiwp9kj.webp"
+      },
+      {
+        text: "✝️ John 11:25 - Jesus said to her, 'I am the resurrection and the life. The one who believes in me will live, even though they die.'"
+        ,
+        image: "https://wallpapers.com/images/hd/beautiful-picturesque-sunset-sky-b4xlitzyr90b8el4.webp"
+      },
+      {
+        text: "🌷 2 Corinthians 5:17 - Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!"
+        ,
+        image: "https://wallpapers.com/images/high/monarch-butterfly-aesthetic-999d6py61ugb0uki.webp"
+      },
+      {
+        text: "💡 John 1:5 - The light shines in the darkness, and the darkness has not overcome it."
+        ,
+        image: "https://wallpapers.com/images/high/nightlight-in-a-jar-rfwnnnj22c0tm7tj.webp"
+      },
+      {
+        text: "🌿 Romans 5:8 - But God demonstrates his own love for us in this: While we were still sinners, Christ died for us."
+        ,
+        image: "https://wallpapers.com/images/hd/aesthetic-tiny-flowers-7c180bq46wyq3wpa.webp"
+      },
+      {
+          text: "🌸 Psalm 34:9 - Fear the Lord, you his holy people, for those who fear him lack nothing."
+        ,
+        image: "https://wallpapers.com/images/high/jesus-is-lord-cross-u817d2benss0dqba.webp"
+      },
+      {
+          text: "🤍 Colossians 3:15 - Let the peace of Christ rule in your hearts, since as members of one body you were called to peace. And be thankful."
+        ,
+        image: "https://wallpapers.com/images/high/worship-background-zoyt6w1izetkpz8m.webp"
+      },
+      {
+          text: "🙌 Psalm 103:2 - Praise the Lord, my soul, and forget not all his benefits."
+        ,
+        image: "https://wallpapers.com/images/high/white-flower-garden-with-a-ledge-avcqcitus71u34hx.webp"
+      }
+    ];
+
+    function generateVerse() {
+      const verseBox = document.getElementById("verse");
+      const imageBox = document.getElementById("verse-image");
+      const loader = document.getElementById("loader");
+
+      verseBox.textContent = '';
+      imageBox.innerHTML = '';
+      loader.style.display = "block";
+
+      setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * verses.length);
+        const selected = verses[randomIndex];
+
+        verseBox.textContent = selected.text;
+
+        const img = document.createElement("img");
+        img.src = selected.image;
+        img.alt = "Obrazek do wersetu";
+        imageBox.appendChild(img);
+
+        loader.style.display = "none";
+      }, 1500);
+    }
+  </script>
+  <div id="verse-image"></div>
+  
+  <footer>
+    ✝️ Divine School • © 2025
+  </footer>
+</body>
+</html>
