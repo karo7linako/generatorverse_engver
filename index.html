@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <title>Easter Verse Generator</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Caveat&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
@@ -15,6 +14,13 @@
       padding: 40px 20px;
       background: linear-gradient(to bottom right, #fef6f9, #e3f7f2);
       color: #5c4033;
+    }
+
+   img.easter-img {
+      max-width: 220px;
+      margin-bottom: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
     }
 
     h1 {
@@ -41,20 +47,6 @@
       background-color: #ff8fab;
     }
 
-    #verse-image img {
-  max-width: 300px;
-  border-radius: 15px;
-  margin-top: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-
-    img.easter-img {
-      max-width: 220px;
-      margin-bottom: 25px;
-      border-radius: 20px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-    }
     #verse {
       margin-top: 30px;
       font-family: 'Caveat', cursive;
@@ -78,13 +70,20 @@
       display: none;
       margin-top: 20px;
     }
+
+   footer {
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #a0795f;
+    }
   </style>
 </head>
 
 <body>
+  <img src="https://img.freepik.com/vetores-premium/feliz-pascoa-com-coelho-fofo_41327-1313.jpg?w=1380" alt="Happy Easter" class="easter-img">
 
   <h1 id="title">Easter Verse Generator</h1>
-  <img src="https://img.freepik.com/vetores-premium/feliz-pascoa-com-coelho-fofo_41327-1313.jpg?w=1380" alt="Happy Easter" class="easter-img">
+
   <div id="subtitle">May the Word brighten your Spring 🌷</div>
 
   <select id="langSelect" onchange="updateUI()">
@@ -98,16 +97,14 @@
 
   <button id="btn" onclick="generateVerse()">🌼 Pick a verse 🌼</button>
 
-<div class="loader" id="loader">
-  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjNyYzI4MmlnZmd2bnQ5NTB1ZXFhNTU1M3Fhc21naHRmYWRkeHc1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lkcIQY7IuctvFCGAD3/giphy.gif" alt="Króliczek ładuje" style="max-height: 100px;">
-  <div>Picking up a verse...</div>
-</div>
-
+  <div class="loader" id="loader">
+    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjNyYzI4MmlnZmd2bnQ5NTB1ZXFhNTU1M3Fhc21naHRmYWRkeHc1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lkcIQY7IuctvFCGAD3/giphy.gif" style="max-height: 100px;">
+    <div id="loaderText">Picking up a verse...</div>
+  </div>
 
   <div id="verse"></div>
 
   <script>
-    // 🌍 UI translations
     const uiText = {
       en: {
         title: "Easter Verse Generator",
@@ -135,11 +132,47 @@
       }
     };
 
-    const verses = [
-      { en: "Matthew 28:6", ru: "Матфея 28:6", pl: "Mateusza 28:6", ro: "Matei 28:6", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
-      { en: "Luke 24:6", ru: "Луки 24:6", pl: "Łukasza 24:6", ro: "Luca 24:6", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
-      { en: "John 20:29", ru: "Иоанна 20:29", pl: "Jana 20:29", ro: "Ioan 20:29", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" }
-    ];
+   const verses = [
+  { en: "Matthew 28:6", ru: "Матфея 28:6", pl: "Mateusza 28:6", ro: "Matei 28:6", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "Matthew 28:5–6", ru: "Матфея 28:5–6", pl: "Mateusza 28:5–6", ro: "Matei 28:5–6", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+
+  { en: "Mark 16:6", ru: "Марка 16:6", pl: "Marka 16:6", ro: "Marcu 16:6", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" },
+
+  { en: "Luke 24:6", ru: "Луки 24:6", pl: "Łukasza 24:6", ro: "Luca 24:6", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "Luke 24:34", ru: "Луки 24:34", pl: "Łukasza 24:34", ro: "Luca 24:34", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+
+  { en: "John 20:1", ru: "Иоанна 20:1", pl: "Jana 20:1", ro: "Ioan 20:1", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" },
+
+  { en: "John 20:8", ru: "Иоанна 20:8", pl: "Jana 20:8", ro: "Ioan 20:8", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "John 20:29", ru: "Иоанна 20:29", pl: "Jana 20:29", ro: "Ioan 20:29", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+
+  { en: "Acts 2:24", ru: "Деяния 2:24", pl: "Dzieje 2:24", ro: "Fapte 2:24", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" },
+
+  { en: "Acts 3:15", ru: "Деяния 3:15", pl: "Dzieje 3:15", ro: "Fapte 3:15", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "Romans 1:4", ru: "Римлянам 1:4", pl: "Rzymian 1:4", ro: "Romani 1:4", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+
+  { en: "Romans 4:25", ru: "Римлянам 4:25", pl: "Rzymian 4:25", ro: "Romani 4:25", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" },
+
+  { en: "Romans 6:9", ru: "Римлянам 6:9", pl: "Rzymian 6:9", ro: "Romani 6:9", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "Romans 8:34", ru: "Римлянам 8:34", pl: "Rzymian 8:34", ro: "Romani 8:34", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+
+  { en: "1 Corinthians 15:3–4", ru: "1 Коринфянам 15:3–4", pl: "1 Koryntian 15:3–4", ro: "1 Corinteni 15:3–4", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" },
+
+  { en: "1 Corinthians 15:20", ru: "1 Коринфянам 15:20", pl: "1 Koryntian 15:20", ro: "1 Corinteni 15:20", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "2 Corinthians 5:17", ru: "2 Коринфянам 5:17", pl: "2 Koryntian 5:17", ro: "2 Corinteni 5:17", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+
+  { en: "Colossians 3:1", ru: "Колосянам 3:1", pl: "Kolosan 3:1", ro: "Coloseni 3:1", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" },
+
+  { en: "Revelation 21:4", ru: "Откровение 21:4", pl: "Apokalipsa 21:4", ro: "Apocalipsa 21:4", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+
+  { en: "Isaiah 25:8", ru: "Izajasza 25:8", pl: "Izajasza 25:8", ro: "Isaia 25:8", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" }
+];
 
     function getLang() {
       return document.getElementById("langSelect").value;
@@ -152,7 +185,8 @@
       document.getElementById("title").textContent = ui.title;
       document.getElementById("subtitle").textContent = ui.subtitle;
       document.getElementById("btn").textContent = ui.button;
-      document.getElementById("loader").textContent = ui.loading;
+
+      document.getElementById("loaderText").textContent = ui.loading;
     }
 
     function generateVerse() {
@@ -175,9 +209,10 @@
       }, 800);
     }
 
-    // init UI on load
     updateUI();
   </script>
 
+  <footer>
+    ✝️ © 2026
+  </footer>
 </body>
-</html>
