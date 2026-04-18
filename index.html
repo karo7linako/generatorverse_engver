@@ -1,13 +1,7 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://karo7linako.github.io/generatorverse_engver/">
-  <meta property="og:title" content="Easter Verse Generator">
-  <meta property="og:description" content="Choose a verse for today — may the Word brighten your Spring 🌷">
-  <meta property="og:image" content="https://karo7linako.github.io/generatorverse_engver/images/linkphoto.png">
 
   <title>Easter Verse Generator</title>
 
@@ -20,7 +14,6 @@
       text-align: center;
       padding: 40px 20px;
       background: linear-gradient(to bottom right, #fef6f9, #e3f7f2);
-      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
       color: #5c4033;
     }
 
@@ -30,23 +23,16 @@
       color: #d36ba3;
     }
 
-    .subtitle {
-      margin-bottom: 20px;
-      color: #8b5e3c;
-    }
-
-    select {
-      padding: 8px;
+    select, button {
+      padding: 10px;
       border-radius: 10px;
-      margin-bottom: 15px;
+      margin: 10px;
     }
 
     button {
-      padding: 14px 28px;
       font-size: 18px;
       background-color: #ffc0cb;
       border: none;
-      border-radius: 12px;
       cursor: pointer;
       font-weight: bold;
     }
@@ -55,6 +41,20 @@
       background-color: #ff8fab;
     }
 
+    #verse-image img {
+  max-width: 300px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+    img.easter-img {
+      max-width: 220px;
+      margin-bottom: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
     #verse {
       margin-top: 30px;
       font-family: 'Caveat', cursive;
@@ -64,8 +64,7 @@
       border-radius: 25px;
       padding: 30px;
       max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: auto;
       min-height: 120px;
     }
 
@@ -79,21 +78,16 @@
       display: none;
       margin-top: 20px;
     }
-
-    footer {
-      margin-top: 50px;
-      font-size: 0.9em;
-      color: #a0795f;
-    }
   </style>
 </head>
 
 <body>
 
-  <h1>Easter Verse Generator</h1>
-  <div class="subtitle">May the Word brighten your Spring 🌷</div>
+  <h1 id="title">Easter Verse Generator</h1>
+  <img src="https://img.freepik.com/vetores-premium/feliz-pascoa-com-coelho-fofo_41327-1313.jpg?w=1380" alt="Happy Easter" class="easter-img">
+  <div id="subtitle">May the Word brighten your Spring 🌷</div>
 
-  <select id="langSelect">
+  <select id="langSelect" onchange="updateUI()">
     <option value="en">English</option>
     <option value="pl">Polski</option>
     <option value="ru">Русский</option>
@@ -102,104 +96,69 @@
 
   <br>
 
-  <button onclick="generateVerse()">🌼 Pick a verse 🌼</button>
+  <button id="btn" onclick="generateVerse()">🌼 Pick a verse 🌼</button>
 
-  <div class="loader" id="loader">⏳ Loading...</div>
+<div class="loader" id="loader">
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjNyYzI4MmlnZmd2bnQ5NTB1ZXFhNTU1M3Fhc21naHRmYWRkeHc1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lkcIQY7IuctvFCGAD3/giphy.gif" alt="Króliczek ładuje" style="max-height: 100px;">
+  <div>Picking up a verse...</div>
+</div>
+
 
   <div id="verse"></div>
 
   <script>
-    const verses = [
-      {
-        en: "Matthew 28:6",
-        ru: "Матфея 28:6",
-        pl: "Mateusza 28:6",
-        ro: "Matei 28:6",
-        image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp"
+    // 🌍 UI translations
+    const uiText = {
+      en: {
+        title: "Easter Verse Generator",
+        subtitle: "May the Word brighten your Spring 🌷",
+        button: "🌼 Pick a verse 🌼",
+        loading: "⏳ Loading..."
       },
-      {
-        en: "Luke 24:6",
-        ru: "Луки 24:6",
-        pl: "Łukasza 24:6",
-        ro: "Luca 24:6",
-        image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp"
+      pl: {
+        title: "Generator Wersetów Wielkanocnych",
+        subtitle: "Niech Słowo rozjaśni Twoją wiosnę 🌷",
+        button: "🌼 Wylosuj werset 🌼",
+        loading: "⏳ Ładowanie..."
       },
-      {
-        en: "John 20:29",
-        ru: "Иоанна 20:29",
-        pl: "Jana 20:29",
-        ro: "Ioan 20:29",
-        image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp"
+      ru: {
+        title: "Генератор Пасхальных стихов",
+        subtitle: "Пусть Слово осветит вашу весну 🌷",
+        button: "🌼 Выбрать стих 🌼",
+        loading: "⏳ Загрузка..."
       },
-      {
-        en: "Acts 2:24",
-        ru: "Деяния 2:24",
-        pl: "Dzieje 2:24",
-        ro: "Faptele 2:24",
-        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        en: "Romans 6:9",
-        ru: "Римлянам 6:9",
-        pl: "Rzymian 6:9",
-        ro: "Romani 6:9",
-        image: "https://wallpapers.com/images/hd/aesthetic-bridge-and-sky-98m33epa0tiwp9kj.webp"
-      },
-      {
-        en: "1 Corinthians 15:20",
-        ru: "1 Коринфянам 15:20",
-        pl: "1 Koryntian 15:20",
-        ro: "1 Corinteni 15:20",
-        image: "https://wallpapers.com/images/hd/beautiful-picturesque-sunset-sky-b4xlitzyr90b8el4.webp"
-      },
-      {
-        en: "Romans 5:8",
-        ru: "Римлянам 5:8",
-        pl: "Rzymian 5:8",
-        ro: "Romani 5:8",
-        image: "https://wallpapers.com/images/high/monarch-butterfly-aesthetic-999d6py61ugb0uki.webp"
-      },
-      {
-        en: "2 Corinthians 5:17",
-        ru: "2 Коринфянам 5:17",
-        pl: "2 Koryntian 5:17",
-        ro: "2 Corinteni 5:17",
-        image: "https://wallpapers.com/images/high/nightlight-in-a-jar-rfwnnnj22c0tm7tj.webp"
-      },
-      {
-        en: "John 11:25",
-        ru: "Иоанна 11:25",
-        pl: "Jana 11:25",
-        ro: "Ioan 11:25",
-        image: "https://wallpapers.com/images/hd/aesthetic-tiny-flowers-7c180bq46wyq3wpa.webp"
-      },
-      {
-        en: "Romans 6:23",
-        ru: "Римлянам 6:23",
-        pl: "Rzymian 6:23",
-        ro: "Romani 6:23",
-        image: "https://wallpapers.com/images/high/jesus-is-lord-cross-u817d2benss0dqba.webp"
-      },
-      {
-        en: "Revelation 21:4",
-        ru: "Откровение 21:4",
-        pl: "Apokalipsa 21:4",
-        ro: "Apocalipsa 21:4",
-        image: "https://wallpapers.com/images/high/worship-background-zoyt6w1izetkpz8m.webp"
-      },
-      {
-        en: "John 3:16",
-        ru: "Иоанна 3:16",
-        pl: "Jana 3:16",
-        ro: "Ioan 3:16",
-        image: "https://wallpapers.com/images/high/white-flower-garden-with-a-ledge-avcqcitus71u34hx.webp"
+      ro: {
+        title: "Generator de versete de Paște",
+        subtitle: "Cuvântul să-ți lumineze primăvara 🌷",
+        button: "🌼 Alege un verset 🌼",
+        loading: "⏳ Se încarcă..."
       }
+    };
+
+    const verses = [
+      { en: "Matthew 28:6", ru: "Матфея 28:6", pl: "Mateusza 28:6", ro: "Matei 28:6", image: "https://wallpapersok.com/images/high/aesthetic-nature-with-daisies-e92hb028mxshzdp0.webp" },
+      { en: "Luke 24:6", ru: "Луки 24:6", pl: "Łukasza 24:6", ro: "Luca 24:6", image: "https://wallpapers.com/images/high/heaven-background-ahcgzwiaas4960lj.webp" },
+      { en: "John 20:29", ru: "Иоанна 20:29", pl: "Jana 20:29", ro: "Ioan 20:29", image: "https://wallpapers.com/images/hd/beautiful-sunset-water-view-d7plmadn4jfvgl10.webp" }
     ];
+
+    function getLang() {
+      return document.getElementById("langSelect").value;
+    }
+
+    function updateUI() {
+      const lang = getLang();
+      const ui = uiText[lang];
+
+      document.getElementById("title").textContent = ui.title;
+      document.getElementById("subtitle").textContent = ui.subtitle;
+      document.getElementById("btn").textContent = ui.button;
+      document.getElementById("loader").textContent = ui.loading;
+    }
 
     function generateVerse() {
       const verseBox = document.getElementById("verse");
       const loader = document.getElementById("loader");
-      const lang = document.getElementById("langSelect").value;
+      const lang = getLang();
 
       verseBox.innerHTML = "";
       loader.style.display = "block";
@@ -213,13 +172,12 @@
         `;
 
         loader.style.display = "none";
-      }, 1000);
+      }, 800);
     }
-  </script>
 
-  <footer>
-    ✝️ © 2026
-  </footer>
+    // init UI on load
+    updateUI();
+  </script>
 
 </body>
 </html>
